@@ -1,0 +1,80 @@
+
+<md-card>
+  <md-card-content>
+    <form #bowForm="ngForm">
+    <h2>Your new bow is:</h2>
+
+      <md-input-container class="form-element-full-width">
+        <input mdInput placeholder="Bow name" required [(ngModel)]="bow.name" name="BowName">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Bow Type" [(ngModel)]="bow.bowType" name="bowType">
+        <md-option *ngFor="let bowType of bowTypes" [value]="bowType">
+          {{bowType}}
+        </md-option>
+      </md-select>
+
+      <md-input-container  class="form-element-full-width">
+        <input mdInput placeholder="Bow brand" required [(ngModel)]="bow.brand" name="BowBrand">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <md-input-container  class="form-element-full-width">
+        <input mdInput placeholder="Bow size (inches)" required [(ngModel)]="bow.size" name="BowSize"
+        type="number">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <md-input-container  class="form-element-full-width">
+        <input mdInput placeholder="Bow Description"  [(ngModel)]="bow.description" name="BowDescription">
+      </md-input-container>
+
+      <div class="form-element-full-width">
+        <button  class="form-element-full-width" md-raised-button (click)="addSightMark()">Add new Sight Mark</button>
+      </div>
+      
+      <div *ngFor="let sightMark of bow.sightMarks; let i = index" class="form-element-full-width">
+
+        <md-input-container >
+          <input mdInput placeholder="Distance" [(ngModel)]="sightMark.distance" name="BowSightMarkDistance_{{i}}">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+        <md-input-container><input mdInput placeholder="Value" [(ngModel)]="sightMark.value" name="BowSightMarkValue_{{i}}">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+        
+        <button md-icon-button (click)="removeSightMark(sightMark)">
+            <md-icon>delete</md-icon>
+        </button>
+
+      </div>
+
+
+        <md-slide-toggle class="form-element-full-width" color="primary"  [checked]="modeDetails" (change)="onSlideToggleChange($event)">More details!</md-slide-toggle>
+        <div *ngIf="modeDetails">
+        <hr />
+
+        <md-input-container  class="form-element-full-width">
+          <input mdInput placeholder="Draw Weight (pounds)"  [(ngModel)]="bow.drawWeight" name="DrawWeight"
+          type="number">
+        </md-input-container>
+
+        <md-input-container  class="form-element-full-width">
+          <input mdInput placeholder="Brace Height" [(ngModel)]="bow.braceHeight" name="BraceHeight">
+        </md-input-container>
+
+
+        <md-input-container  class="form-element-full-width">
+          <input mdInput placeholder="Bow string" [(ngModel)]="bow.bowString" name="BowString">
+        </md-input-container>
+
+      </div>
+    </form>
+
+  </md-card-content>
+  <md-card-actions>
+    <button class="form-element-full-width" md-raised-button (click)="save()" [disabled]="!bowForm.form.valid">Save</button>
+  </md-card-actions>
+</md-card>

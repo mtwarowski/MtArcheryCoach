@@ -1,0 +1,31 @@
+<!-- <md-card> 
+  <md-list>
+    <md-list-item *ngFor="let practice of practices | async">
+      <button md-icon-button (click)="onSelectedListItem(practice)"><md-icon md-list-icon>edit</md-icon></button>
+      <h4 md-line></h4>
+      <p md-line> {{practice.practiceDate}} </p>
+      <p md-line> {{practice.totalValue}} </p>
+    </md-list-item>
+  </md-list>
+</md-card> -->
+
+
+<md-card *ngFor="let practice of practices | async"> 
+  <md-card-header>
+    <div md-card-avatar class="practice-total-value"><span class="practice-total-value-text">{{practice.totalValue}}</span></div>
+    <md-card-title>{{practice.name}}</md-card-title>
+    <md-card-subtitle>{{practice.practiceDate}}</md-card-subtitle>
+  </md-card-header>
+  <md-card-actions  class="practice-md-card-actions">
+    <div fxFlex></div>
+    <button md-icon-button (click)="onSelectedListItem(practice)"><md-icon md-list-icon>edit</md-icon></button>     
+    <button md-icon-button (click)="onDeleteListItem(practice)"><md-icon md-list-icon>delete</md-icon></button>
+  </md-card-actions>
+</md-card> 
+
+
+<span class="done">
+  <a routerLink="/practice" color="primary" md-fab>
+    <md-icon>add circle</md-icon>
+  </a>
+</span>

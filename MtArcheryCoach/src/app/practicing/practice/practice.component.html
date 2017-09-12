@@ -1,0 +1,49 @@
+<p>
+  practice works!
+</p>
+
+<md-card>
+  <md-card-content>
+    <form #practiceForm="ngForm">
+
+      <md-input-container class="form-element-full-width">
+        <input mdInput placeholder="Practice name" required [(ngModel)]="practice.name" name="PracticeName">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <md-input-container class="form-element-full-width">
+        <input mdInput placeholder="Date" required [(ngModel)]="practice.practiceDate" name="PracticeDate" [mdDatepicker]="picker">
+        <button mdSuffix [mdDatepickerToggle]="picker"></button>
+        <md-error>Date is required</md-error>
+      </md-input-container>
+      <md-datepicker #picker></md-datepicker>
+
+      <hr />
+
+      <div class="form-element-full-width">
+        <button md-raised-button class="form-element-full-width" (click)="addPracticeRounds()">New Practice Set:</button>      
+      </div>
+
+      <div *ngFor="let practiceRound of practice.practiceRounds; let i=index"  class="form-element-full-width">
+
+        <md-input-container >
+          <input mdInput placeholder="Rounds" type="number" [(ngModel)]="practiceRound.numberOfRound" name="numberOfRound_{{i}}">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+        <md-input-container>
+          <input mdInput placeholder="Arrows No" type="number" [(ngModel)]="practiceRound.numberOfTimesPairRound" name="numberOfTimesPairRound_{{i}}">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+        <button md-icon-button class="md-icon-button" (click)="removePracticeRounds(practiceRound)">
+            <md-icon>delete</md-icon>
+        </button>
+
+      </div>
+    </form>
+  </md-card-content>
+  <md-card-actions>
+    <button class="form-element-full-width" md-raised-button (click)="save()" [disabled]="!practiceForm.form.valid">Save</button>
+  </md-card-actions>
+</md-card>

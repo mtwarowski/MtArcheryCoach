@@ -1,0 +1,54 @@
+<md-card>
+  <md-card-content>
+    <form #ArrowsForm="ngForm">
+    <h2>Your new arrows are:</h2>
+
+      <md-input-container class="form-element-full-width">
+        <input mdInput placeholder="Name" required [(ngModel)]="arrows.name" name="ArrowsName">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <md-input-container class="form-element-full-width">
+        <input type="number" mdInput placeholder="diameter [mm]" required [(ngModel)]="arrows.diameterInMm" name="ArrowsDiameterInMm">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <md-input-container class="form-element-full-width">
+        <input mdInput placeholder="Comment" required [(ngModel)]="arrows.comment" name="ArrowsComment">
+        <md-error>This field is required</md-error>
+      </md-input-container>
+
+      <hr />
+
+      <md-slide-toggle class="form-element-full-width" color="primary"  [checked]="modeDetails" (change)="onSlideToggleChange($event)">More details!</md-slide-toggle>
+      <div *ngIf="modeDetails">
+
+        <md-input-container class="form-element-full-width">
+          <input type="number" mdInput placeholder="AMO Length [cm]" required [(ngModel)]="arrows.amoLengthInCm" name="ArrowsAmoLengthInCm">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+        <md-input-container class="form-element-full-width">
+          <input mdInput placeholder="Vanes" required [(ngModel)]="arrows.vanes" name="ArrowsVanes">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+        <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Arrows Type" [ngModel]="arrows.shaftType" name="ShaftType">
+          <md-option *ngFor="let shaftType of shaftTypes" [value]="shaftType">
+            {{shaftType}}
+          </md-option>
+        </md-select>
+
+        <md-input-container class="form-element-full-width">
+          <input mdInput placeholder="Nocks" required [(ngModel)]="arrows.nocks" name="ArrowsNocks">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+      </div>
+
+      </form>
+  </md-card-content>
+  <md-card-actions>
+    <button class="form-element-full-width" md-raised-button (click)="save()" [disabled]="!ArrowsForm.form.valid">Save</button>
+  </md-card-actions>
+</md-card>

@@ -1,0 +1,8 @@
+.bow-image{
+  background-image: url('../../../assets/myBow.jpg');
+  background-size: cover;
+}
+
+.bow-md-card-actions{
+    text-align: right;
+}

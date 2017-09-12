@@ -1,0 +1,35 @@
+<!-- <md-card> 
+  <md-list>
+    <md-list-item *ngFor="let bow of bows | async"> 
+      <button md-icon-button (click)="onSelectedListItem(bow)"><md-icon md-list-icon>edit</md-icon></button>
+       {{bow.name}}
+    </md-list-item>
+  </md-list>
+</md-card> -->
+
+<md-card *ngFor="let bow of bows | async"> 
+  <md-card-header>
+    <div md-card-avatar class="bow-image"></div>
+    <md-card-title>{{bow.name}}</md-card-title>
+    <md-card-subtitle>{{bow.description}}</md-card-subtitle>
+  </md-card-header>
+  <md-card-content>
+    <md-grid-list cols="3" rowHeight="5:1">
+      <md-grid-tile  *ngFor="let sightMark of bow.sightMarks">
+        <div>{{sightMark.distance}}: {{sightMark.value}}</div>
+      </md-grid-tile>
+    </md-grid-list>
+  </md-card-content>
+  <md-card-actions  class="bow-md-card-actions">
+    <div fxFlex></div>
+    <button md-icon-button (click)="onSelectedListItem(bow)"><md-icon md-list-icon>edit</md-icon></button>     
+    <button md-icon-button (click)="onDeleteListItem(bow)"><md-icon md-list-icon>delete</md-icon></button>
+  </md-card-actions>
+</md-card> 
+
+
+<span class="done">
+  <a routerLink="/bow" color="primary" md-fab>
+    <md-icon>add circle</md-icon>
+  </a>
+</span>
