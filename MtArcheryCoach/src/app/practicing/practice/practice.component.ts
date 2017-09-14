@@ -13,15 +13,15 @@ import { Practice, PracticeRounds } from '../practices/practices.component';
 })
 export class PracticeComponent implements OnInit {
 
-  public practice: Practice;
+  public practice: PracticeViewModel;
   public practiceObservable: FirebaseObjectObservable<Practice>;
 
+  
   constructor(private userService: UserService, public af: AngularFireDatabase,
       private route: ActivatedRoute, private router: Router) {
 
-    let dateString = new Date();
-    dateString.setHours(0,0,0,0);
-    let practice = <Practice>{name: "", comment: "", practiceDate: dateString.toString(), totalValue: 0, practiceRounds: [{ numberOfRound: 0, numberOfTimesPairRound: 6}]};
+
+    let practice = <PracticeViewModel>{name: "", comment: "", practiceDate: new Date(), totalValue: 0, practiceRounds: [{ numberOfRound: 0, numberOfTimesPairRound: 6}]};
 
     this.practice = practice;
   }
@@ -34,7 +34,7 @@ export class PracticeComponent implements OnInit {
           let userDataUrl = this.userService.getUserObjectsUrl();
           this.practiceObservable = this.af.object(userDataUrl + '/practices/' + practiceIdFromUrl);
           this.practiceObservable.subscribe((value: Practice) => {
-            this.practice = value;
+            this.practice = this.MapToViewModel(value);
           });
         }
     });
@@ -42,7 +42,13 @@ export class PracticeComponent implements OnInit {
 
   save() {
     this.practice.totalValue = this.getTotalValue(this.practice);
-
+	
+    this.practice.practiceDateText = this.practice.practiceDate.toJSON();
+    this.practice.practiceDateTimeStamp = Math.floor(this.practice.practiceDate.getTime() / 1000);
+    this.practice.practiceDateFormatedText = "" + this.practice.practiceDate.getFullYear() + 
+                                            "/" + (this.practice.practiceDate.getMonth() + 1) + 
+                                            "/" + this.practice.practiceDate.getDate();
+    
     if(this.practiceObservable){
         this.practiceObservable.update(this.practice).then(() => {
           this.router.navigate(['practices']);
@@ -69,7 +75,7 @@ export class PracticeComponent implements OnInit {
     });
   }
 
-  private getTotalValue(practice: Practice){
+  private getTotalValue(practice: PracticeViewModel){
     let total = 0;
 
     practice.practiceRounds.forEach((practiceRound: PracticeRounds) => {
@@ -77,4 +83,22 @@ export class PracticeComponent implements OnInit {
     });
     return total;
   }
+
+  private MapToViewModel(practice: Practice): PracticeViewModel{
+    let vm = <PracticeViewModel> JSON.parse(JSON.stringify(practice));
+    vm.practiceDate = new Date(practice.practiceDateTimeStamp*1000) || new Date();
+    return vm;
+  }
+}
+
+export class PracticeViewModel{
+  $key: string;
+  name: string;
+  comment: string;
+  practiceDate: Date;
+  practiceDateText: string;
+  practiceDateTimeStamp: number;
+  practiceDateFormatedText: string;
+  totalValue: number;
+  practiceRounds: PracticeRounds[];
 }

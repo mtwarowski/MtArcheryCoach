@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MaterialModule } from '@angular/material';
+import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MaterialModule, MdDatepickerModule } from '@angular/material';
 import { PracticeDeleteConfirmDialog, PracticesComponent } from './practices/practices.component';
 import { PracticeComponent } from './practice/practice.component';
 import { PracticingRoutingModule } from "./practicing-routing.module";
@@ -16,6 +16,7 @@ import { PracticingRoutingModule } from "./practicing-routing.module";
     MdCardModule,
     MdToolbarModule,
     MdIconModule,
+    MdDatepickerModule,
     MaterialModule,
     FormsModule
   ],
@@ -26,6 +27,7 @@ import { PracticingRoutingModule } from "./practicing-routing.module";
     MdMenuModule,
     MdCardModule,
     MdToolbarModule,
+    MdDatepickerModule,
     MdIconModule,
     FormsModule
   ],

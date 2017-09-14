@@ -11,7 +11,8 @@ export class UserService {
     private currentUser: firebase.User = null;
 
 constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth, private router: Router) {
-        this.authState = this.afAuth.authState;
+      this.authState = this.afAuth.authState;
+      console.log("Created UserService.");
       this.authState.subscribe(auth => {
         if (auth) {
           this.currentUser = auth;

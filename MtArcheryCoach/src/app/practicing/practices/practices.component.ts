@@ -76,7 +76,9 @@ export class PracticeDeleteConfirmDialog {
 export interface Practice extends FirebaseData{
   name: string;
   comment: string;
-  practiceDate: string;
+  practiceDateText: string;
+  practiceDateTimeStamp: number;
+  practiceDateFormatedText: string;
   totalValue: number;
   practiceRounds: PracticeRounds[];
 }

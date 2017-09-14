@@ -39,7 +39,6 @@ export const ShaftType : string[] = [
     'Wooden'
 ];
 
-
 export interface Arrows extends FirebaseData {
     name: string;
     diameterInMm: number;

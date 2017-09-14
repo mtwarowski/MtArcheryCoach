@@ -12,11 +12,11 @@
       </md-input-container>
 
       <md-input-container class="form-element-full-width">
-        <input mdInput placeholder="Date" required [(ngModel)]="practice.practiceDate" name="PracticeDate" [mdDatepicker]="picker">
-        <button mdSuffix [mdDatepickerToggle]="picker"></button>
+        <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" required [(ngModel)]="practice.practiceDate" name="practiceDate">
+        <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+        <md-datepicker touchUi="true" #picker></md-datepicker>
         <md-error>Date is required</md-error>
-      </md-input-container>
-      <md-datepicker #picker></md-datepicker>
+      </md-input-container> 
 
       <hr />
 
