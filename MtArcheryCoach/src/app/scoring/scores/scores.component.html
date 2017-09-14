@@ -1,0 +1,19 @@
+<md-card *ngFor="let score of scores | async"> 
+  <md-card-header>
+    <div md-card-avatar class="score-total-value"><span class="score-total-value-text">{{score.totalValue}}</span></div>
+    <md-card-title><span> of </span> {{score.maxValue}}</md-card-title>
+    <md-card-subtitle>{{score.scoreDateFormatedText}}</md-card-subtitle>
+  </md-card-header>
+  <md-card-actions  class="score-md-card-actions">
+    <div fxFlex></div>
+    <button md-icon-button (click)="onSelectedListItem(score)"><md-icon md-list-icon>edit</md-icon></button>     
+    <button md-icon-button (click)="onDeleteListItem(score)"><md-icon md-list-icon>delete</md-icon></button>
+  </md-card-actions>
+</md-card> 
+
+
+<span class="done">
+  <a routerLink="/score" color="primary" md-fab>
+    <md-icon>add circle</md-icon>
+  </a>
+</span>

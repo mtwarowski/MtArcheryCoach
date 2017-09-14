@@ -1,14 +1,42 @@
-import { distinct } from 'rxjs/operator/distinct';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MaterialModule, MdDatepickerModule } from '@angular/material';
+import { ScoreDeleteConfirmDialog, ScoresComponent } from './scores/scores.component';
+//import { ScoreComponent } from './scores/scores.component';
+import { ScoringRoutingModule } from "./scoring-routing.module";
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ScoringRoutingModule,
+    MdNativeDateModule,
+    MdButtonModule,
+    MdMenuModule,
+    MdCardModule,
+    MdToolbarModule,
+    MdIconModule,
+    MdDatepickerModule,
+    MaterialModule,
+    FormsModule
   ],
-  declarations: []
+  declarations: [ScoresComponent, ScoreDeleteConfirmDialog],//, ScoreComponent],
+  exports: [
+    MdNativeDateModule,
+    MdButtonModule,
+    MdMenuModule,
+    MdCardModule,
+    MdToolbarModule,
+    MdDatepickerModule,
+    MdIconModule,
+    FormsModule
+  ],
+  entryComponents: [ScoreDeleteConfirmDialog],
 })
 export class ScoringModule { }
+
+
+
 
 export interface I {
 

@@ -9,55 +9,16 @@
       {{displayName}}
     </button>
   </md-toolbar>
-  <md-menu x-position="before" #menu="mdMenu">
-    <!-- <button md-menu-item>Bows</button>
-    <button md-menu-item>Arrows</button> -->
-  
+  <md-menu x-position="before" #menu="mdMenu">  
     <a md-menu-item routerLink="/bows" routerLinkActive="active">Bows</a>
     <a md-menu-item routerLink="/arrows" routerLinkActive="active">Arrows</a>
     <a md-menu-item routerLink="/practices" routerLinkActive="active">Practices</a>
+    <a md-menu-item routerLink="/scores" routerLinkActive="active">Scores</a>
     <button md-menu-item *ngIf="!isUserLoggedIn" (click)="userService.loginWithGoogle()">loginWithGoogle</button>
     <button md-menu-item *ngIf="isUserLoggedIn" (click)="userService.logout()">Logout</button>    
   </md-menu>
 
-  <!-- <md-card>
-    <button md-raised-button>All</button>
-    <button md-raised-button>Of</button>
-    <button md-raised-button color="primary">The</button>
-    <button md-raised-button color="accent">Buttons</button>
-  </md-card>
-
-  <span class="done">
-    <button md-fab>
-      <md-icon>check circle</md-icon>
-    </button>
-  </span> -->
   <router-outlet></router-outlet>
 </div>
-
-<!-- 
- <md-sidenav-container>
-  <md-sidenav #mtsidenav mode="side" opened="false">
-    Sidenav
-  </md-sidenav>
-
-  <md-toolbar color="primary">
-    <button md-raised-button class="app-icon-button" (click)="mtsidenav.opened = !mtsidenav.opened">
-      <i class="material-icons app-toolbar-menu">menu</i>
-    </button>
-
-    Archery Coach
-
-    <span class="app-toolbar-filler"></span>
-    <button md-raised-button>TOGGLE DARK THEME</button>
-  </md-toolbar>
-
-  <div class="app-content">
-
-    <span class="app-action">
-      <button md-fab><md-icon>check circle</md-icon></button>
-    </span>
-  </div>
-</md-sidenav-container>  -->
 
 

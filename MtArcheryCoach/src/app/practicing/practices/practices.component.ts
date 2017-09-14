@@ -44,13 +44,9 @@ export class PracticesComponent implements OnInit {
     this.deleteDialogRef.componentInstance.practice = practice;
     this.deleteDialogRef.afterClosed().subscribe(result => {
       if(result){
-          this.deleteBow(this.deleteDialogRef.componentInstance.practice);
+        this.practices.remove(<any>practice);
       }
     });
-  }
-  
-  deleteBow(practice: Practice) {
-    this.practices.remove(<any>practice);
   }
 }
 
