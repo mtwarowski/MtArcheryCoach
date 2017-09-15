@@ -1,9 +1,9 @@
-import { forEach } from '@angular/router/src/utils/collection';
 import { FirebaseObjectObservable } from 'angularfire2/database/firebase_object_observable';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
 import { UserService } from "../../user.service";
+
 import { Practice, PracticeRounds } from '../practices/practices.component';
 
 @Component({
@@ -45,9 +45,7 @@ export class PracticeComponent implements OnInit {
 	
     this.practice.practiceDateText = this.practice.practiceDate.toJSON();
     this.practice.practiceDateTimeStamp = Math.floor(this.practice.practiceDate.getTime() / 1000);
-    this.practice.practiceDateFormatedText = "" + this.practice.practiceDate.getFullYear() + 
-                                            "/" + (this.practice.practiceDate.getMonth() + 1) + 
-                                            "/" + this.practice.practiceDate.getDate();
+    this.practice.practiceDateFormatedText = this.getDateFormattedText(this.practice.practiceDate);
     
     if(this.practiceObservable){
         this.practiceObservable.update(this.practice).then(() => {
@@ -88,6 +86,10 @@ export class PracticeComponent implements OnInit {
     let vm = <PracticeViewModel> JSON.parse(JSON.stringify(practice));
     vm.practiceDate = new Date(practice.practiceDateTimeStamp*1000) || new Date();
     return vm;
+  }
+
+  private getDateFormattedText(date: Date): string{
+    return "" + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
   }
 }
 

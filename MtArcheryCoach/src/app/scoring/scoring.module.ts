@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MaterialModule, MdDatepickerModule } from '@angular/material';
 import { ScoreDeleteConfirmDialog, ScoresComponent } from './scores/scores.component';
-//import { ScoreComponent } from './scores/scores.component';
+
 import { ScoringRoutingModule } from "./scoring-routing.module";
+import { ScoreComponent } from './score/score.component';
+import { ScoreRoundsComponent } from './score-rounds/score-rounds.component';
 
 @NgModule({
   imports: [
@@ -20,7 +22,7 @@ import { ScoringRoutingModule } from "./scoring-routing.module";
     MaterialModule,
     FormsModule
   ],
-  declarations: [ScoresComponent, ScoreDeleteConfirmDialog],//, ScoreComponent],
+  declarations: [ScoresComponent, ScoreDeleteConfirmDialog, ScoreComponent, ScoreRoundsComponent],
   exports: [
     MdNativeDateModule,
     MdButtonModule,
@@ -38,11 +40,14 @@ export class ScoringModule { }
 
 
 
-export interface I {
-
+export interface IShootingRoundsInfo {
+  name: string;
+  rounds: IShootingRoundInfo[];
 }
 
-export interface IShootingRoundDef {
+
+
+export interface IShootingRoundInfo {
   arrowsPairEnd: number;
   numberOfEnds: number;
   

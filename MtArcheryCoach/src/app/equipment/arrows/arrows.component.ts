@@ -4,7 +4,8 @@ import { Router } from "@angular/router";
 import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
 import { UserService } from "../../user.service";
 
-const objectRefUrl: string = '/arrows/';
+import { arrowsRefUrl } from '../../app.constants';
+
 
 @Component({
   selector: 'app-arrows',
@@ -17,7 +18,7 @@ export class ArrowsComponent implements OnInit {
 
   constructor(private userService: UserService, public af: AngularFireDatabase, private router : Router) {    
     let userDataUrl = this.userService.getUserObjectsUrl();
-    this.allArrows = this.af.list(userDataUrl + objectRefUrl);
+    this.allArrows = this.af.list(userDataUrl + arrowsRefUrl);
   }
 
   ngOnInit() {
@@ -28,7 +29,7 @@ export class ArrowsComponent implements OnInit {
       return;
     }
 
-    var resourcePath = objectRefUrl + arrows.$key;
+    var resourcePath = arrowsRefUrl + arrows.$key;
     this.router.navigate([resourcePath]);
   }
 }

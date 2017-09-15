@@ -5,8 +5,7 @@ import { Router } from "@angular/router";
 import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
 import { UserService } from "../../user.service";
 import { FirebaseData } from "../../core/FirebaseData";
-
-const objectRefUrl: string = '/bows/';
+import { bowRefUrl } from '../../app.constants';
 
 @Component({
   selector: 'app-bows',
@@ -19,7 +18,7 @@ export class BowsComponent implements OnInit {
 
   constructor(private userService: UserService, public af: AngularFireDatabase, private router : Router, public dialog: MdDialog) {    
     let userDataUrl = userService.getUserObjectsUrl();
-    this.bows = this.af.list(userDataUrl + objectRefUrl);
+    this.bows = this.af.list(userDataUrl + bowRefUrl);
   }
 
   ngOnInit() {

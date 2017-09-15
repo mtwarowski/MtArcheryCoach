@@ -5,6 +5,7 @@ import { MdDialogRef, MdDialog } from "@angular/material";
 import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
 import { UserService } from "../../user.service";
 import { FirebaseData } from "../../core/FirebaseData";
+import { IShootingRoundsInfo } from '../scoring.module';
 
 const objectRefUrl: string = '/scores/';
 
@@ -71,5 +72,10 @@ export interface Score extends FirebaseData{
   name: string;
   maxValue: number;
   totalValue: number;
+  scoreDateText: string;
+  scoreDateTimeStamp: number;
   scoreDateFormatedText: string;
+  bowName: string;
+  arrowsName: string;
+  rounds: IShootingRoundsInfo;
 }

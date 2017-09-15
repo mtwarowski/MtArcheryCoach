@@ -1,0 +1,39 @@
+<md-card>
+  <md-card-content>
+      <form #scoreForm="ngForm">
+          
+        <md-input-container class="form-element-full-width"  [style.width]="'100%'">
+          <input mdInput placeholder="Name" required [(ngModel)]="score.name" name="ScoreName">
+          <md-error>This field is required</md-error>
+        </md-input-container>
+
+        <md-input-container class="form-element-full-width"  [style.width]="'100%'">
+          <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" required [(ngModel)]="score.scoreDate" name="scoreDate">
+          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+          <md-datepicker touchUi="true" #picker></md-datepicker>
+          <md-error>Date is required</md-error>
+        </md-input-container>
+        
+        <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Bow" [(ngModel)]="score.bow" name="bows">
+          <md-option *ngFor="let bow of bowsObservable | async" [value]="bow">
+            {{bow.name}}
+          </md-option>
+        </md-select>
+        
+        <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Arrows" [(ngModel)]="score.arrows" name="arrows">
+          <md-option *ngFor="let arrows of allArrowsObservable | async" [value]="arrows">
+            {{arrows.name}}
+          </md-option>
+        </md-select>
+        
+        <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Rounds" [(ngModel)]="score.rounds" name="rounds">
+          <md-option *ngFor="let rounds of roundsObservable | async" [value]="rounds">
+            {{round.name}}
+          </md-option>
+        </md-select>
+      </form>
+  </md-card-content>
+  <md-card-actions>
+    <button class="form-element-full-width" md-raised-button (click)="save()" [disabled]="!scoreForm.form.valid">Save</button>
+  </md-card-actions>
+</md-card>
