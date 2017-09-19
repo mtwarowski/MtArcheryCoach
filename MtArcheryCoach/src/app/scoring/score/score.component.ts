@@ -48,25 +48,30 @@ export class ScoreComponent implements OnInit {
   MapToScore(scoreViewModel: ScoreViewModel): Score {
     let result: any = {
       name: scoreViewModel.name,
+      totalValue: 0,
       scoreDateText: scoreViewModel.scoreDate.toJSON(),
       scoreDateTimeStamp: Math.floor(scoreViewModel.scoreDate.getTime() / 1000),
       scoreDateFormatedText: this.getDateFormattedText(scoreViewModel.scoreDate),
-      rounds: scoreViewModel.rounds
+      roundsInfo: scoreViewModel.roundsInfo
     };
     result.bowName = scoreViewModel.bow ? scoreViewModel.bow.name : null;
     result.arrowsName = scoreViewModel.arrows ? scoreViewModel.arrows.name : null;
     
-    result.maxValue = this.getMaxValue(scoreViewModel.rounds);
+    result.maxValue = this.getMaxValue(scoreViewModel.roundsInfo);
     return <Score>result;
   }
 
-  private getMaxValue(rounds: IShootingRoundsInfo) : number{
-    if(!rounds){
+  private getMaxValue(roundsInfo: IShootingRoundsInfo) : number{
+    if(!roundsInfo || !roundsInfo.rounds){
       return 0;
     }
 
     let result = 0;
-    rounds.rounds.forEach(x => result += x.arrowsPairEnd * x.numberOfEnds);
+    for (var index = 0; index < roundsInfo.rounds.length; index++) {
+      var x = roundsInfo.rounds[index];
+      result += x.arrowsPairEnd * x.numberOfEnds;
+    }
+
     return result;
   }
   
@@ -82,5 +87,5 @@ export interface ScoreViewModel{
   scoreDateFormatedText: string;
   bow: any;
   arrows: any;
-  rounds: IShootingRoundsInfo;
+  roundsInfo: IShootingRoundsInfo;
 }

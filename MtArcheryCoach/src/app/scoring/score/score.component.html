@@ -26,9 +26,9 @@
           </md-option>
         </md-select>
         
-        <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Rounds" [(ngModel)]="score.rounds" name="rounds">
+        <md-select class="form-element-full-width"  [style.width]="'100%'"  placeholder="Rounds" [(ngModel)]="score.roundsInfo" name="rounds">
           <md-option *ngFor="let rounds of roundsObservable | async" [value]="rounds">
-            {{round.name}}
+            {{rounds.name}}
           </md-option>
         </md-select>
       </form>

@@ -77,5 +77,5 @@ export interface Score extends FirebaseData{
   scoreDateFormatedText: string;
   bowName: string;
   arrowsName: string;
-  rounds: IShootingRoundsInfo;
+  roundsInfo: IShootingRoundsInfo;
 }

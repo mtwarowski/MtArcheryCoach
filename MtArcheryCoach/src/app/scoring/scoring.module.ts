@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule, MaterialModule, MdDatepickerModule } from '@angular/material';
+import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule,
+   MaterialModule, MdDatepickerModule, MdExpansionModule } from '@angular/material';
 import { ScoreDeleteConfirmDialog, ScoresComponent } from './scores/scores.component';
 
 import { ScoringRoutingModule } from "./scoring-routing.module";
@@ -20,7 +21,8 @@ import { ScoreRoundsComponent } from './score-rounds/score-rounds.component';
     MdIconModule,
     MdDatepickerModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    MdExpansionModule
   ],
   declarations: [ScoresComponent, ScoreDeleteConfirmDialog, ScoreComponent, ScoreRoundsComponent],
   exports: [
@@ -31,7 +33,8 @@ import { ScoreRoundsComponent } from './score-rounds/score-rounds.component';
     MdToolbarModule,
     MdDatepickerModule,
     MdIconModule,
-    FormsModule
+    FormsModule,
+    MdExpansionModule
   ],
   entryComponents: [ScoreDeleteConfirmDialog],
 })
@@ -51,13 +54,17 @@ export interface IShootingRoundInfo {
   arrowsPairEnd: number;
   numberOfEnds: number;
   
-  distance: number;
-  distinctSimbol: string;
+  distanceValue: number;
+  distanceSymbol: string;
+  distanceUnitName: string;
+
+  sortOrderNo: number;
 
   target: ITarget;
 }
 
 export interface ITarget{
+  name: string;
   size: number;
   targetFields: ITargetField[];
 

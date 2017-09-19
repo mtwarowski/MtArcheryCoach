@@ -1,3 +1,16 @@
-<p>
-  score-rounds works!
-</p>
+<md-card>
+  <md-accordion *ngIf="score">
+  
+    <md-expansion-panel *ngFor="let round of score.roundsInfo.rounds">
+      <md-expansion-panel-header>
+        {{round.name}}
+      </md-expansion-panel-header>  
+
+      <md-table #table>
+        
+      </md-table>
+
+    </md-expansion-panel>
+
+  </md-accordion>
+</md-card>
