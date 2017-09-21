@@ -67,6 +67,22 @@ export class ScoreDeleteConfirmDialog {
   constructor(public dialogRef: MdDialogRef<ScoreDeleteConfirmDialog>) { }
 }
 
+export interface IPoint{
+  r: number;
+  cx: number;
+  cy: number;
+  stroke: string;
+  fill: string;
+  strokeWidth: string;
+
+  value: number;
+  displayValue: string;
+}
+
+export interface IScoreInfo{
+  roundName: string;
+  endsPoints: IPoint[][];
+}
 
 export interface Score extends FirebaseData{
   name: string;
@@ -77,5 +93,6 @@ export interface Score extends FirebaseData{
   scoreDateFormatedText: string;
   bowName: string;
   arrowsName: string;
+  scoresInfo: IScoreInfo[];
   roundsInfo: IShootingRoundsInfo;
 }

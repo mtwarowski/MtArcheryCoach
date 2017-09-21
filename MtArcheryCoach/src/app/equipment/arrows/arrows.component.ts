@@ -43,6 +43,7 @@ export const ShaftType : string[] = [
 export interface Arrows extends FirebaseData {
     name: string;
     diameterInMm: number;
+    
     shaftType: string;
     amoLengthInCm: number;
     vanes: string;

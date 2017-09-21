@@ -4,7 +4,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { FirebaseListObservable, AngularFireDatabase } from "angularfire2/database";
 import { UserService } from "../../user.service";
 
-import { Score } from '../scores/scores.component';
+import { Score, IScoreInfo, IPoint } from '../scores/scores.component';
 import { IShootingRoundInfo, IShootingRoundsInfo } from '../scoring.module';
 import { arrowsRefUrl, bowRefUrl } from '../../app.constants';
 import { Bow } from '../../equipment/bows/bows.component';
@@ -52,14 +52,56 @@ export class ScoreComponent implements OnInit {
       scoreDateText: scoreViewModel.scoreDate.toJSON(),
       scoreDateTimeStamp: Math.floor(scoreViewModel.scoreDate.getTime() / 1000),
       scoreDateFormatedText: this.getDateFormattedText(scoreViewModel.scoreDate),
-      roundsInfo: scoreViewModel.roundsInfo
+      roundsInfo: scoreViewModel.roundsInfo,
     };
     result.bowName = scoreViewModel.bow ? scoreViewModel.bow.name : null;
     result.arrowsName = scoreViewModel.arrows ? scoreViewModel.arrows.name : null;
+    result.arrowsDiameterInMm = scoreViewModel.arrows ? scoreViewModel.arrows.diameterInMm : null;
     
     result.maxValue = this.getMaxValue(scoreViewModel.roundsInfo);
+
+    result.scoresInfo = this.getEmptyScoresInfo(scoreViewModel.roundsInfo, result.arrowsDiameterInMm);
+
     return <Score>result;
+  }  
+  
+  private getEmptyScoresInfo(roundsInfo: IShootingRoundsInfo, arrowDimention: number): IScoreInfo[] {
+    let result = [];
+    
+    if(!roundsInfo || !roundsInfo.rounds){
+      return result;
+    }
+    
+
+    for (var index = 0; index < roundsInfo.rounds.length; index++) {
+      let scoreInfo = <IScoreInfo>{ endsPoints: [] };
+
+      for (var endIndex = 0; endIndex < roundsInfo.rounds[index].numberOfEnds; endIndex++) {
+        let arrayOfPoints : IPoint[] = [];
+        for (var arrowIndex = 0; arrowIndex < roundsInfo.rounds[index].arrowsPairEnd; arrowIndex++) {
+          let scoreZone = roundsInfo.rounds[index].target.targetFields[0];
+
+          arrayOfPoints.push({r: arrowDimention,
+            cx: scoreZone.cx,
+            cy: scoreZone.cy,
+            stroke: scoreZone.stroke,
+            fill: scoreZone.fill,
+            strokeWidth: scoreZone.strokeWidth,
+          
+            value: scoreZone.point,
+            displayValue: scoreZone.displayPoint
+          });
+        }
+
+        scoreInfo.endsPoints.push(arrayOfPoints);
+      }
+
+      result.push(scoreInfo);
+    }
+
+    return result;
   }
+
 
   private getMaxValue(roundsInfo: IShootingRoundsInfo) : number{
     if(!roundsInfo || !roundsInfo.rounds){
@@ -86,6 +128,6 @@ export interface ScoreViewModel{
   totalValue: number;
   scoreDateFormatedText: string;
   bow: any;
-  arrows: any;
+  arrows: Arrows;
   roundsInfo: IShootingRoundsInfo;
 }

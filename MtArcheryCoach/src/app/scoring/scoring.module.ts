@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule,
    MaterialModule, MdDatepickerModule, MdExpansionModule } from '@angular/material';
 import { ScoreDeleteConfirmDialog, ScoresComponent } from './scores/scores.component';
@@ -8,6 +9,7 @@ import { ScoreDeleteConfirmDialog, ScoresComponent } from './scores/scores.compo
 import { ScoringRoutingModule } from "./scoring-routing.module";
 import { ScoreComponent } from './score/score.component';
 import { ScoreRoundsComponent } from './score-rounds/score-rounds.component';
+import { ScoreRoundsEditComponent } from './score-rounds-edit/score-rounds-edit.component';
 
 @NgModule({
   imports: [
@@ -22,9 +24,10 @@ import { ScoreRoundsComponent } from './score-rounds/score-rounds.component';
     MdDatepickerModule,
     MaterialModule,
     FormsModule,
-    MdExpansionModule
+    MdExpansionModule,
+    FlexLayoutModule
   ],
-  declarations: [ScoresComponent, ScoreDeleteConfirmDialog, ScoreComponent, ScoreRoundsComponent],
+  declarations: [ScoresComponent, ScoreDeleteConfirmDialog, ScoreComponent, ScoreRoundsComponent, ScoreRoundsEditComponent],
   exports: [
     MdNativeDateModule,
     MdButtonModule,

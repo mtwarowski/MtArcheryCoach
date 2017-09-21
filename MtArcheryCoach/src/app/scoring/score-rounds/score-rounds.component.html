@@ -1,16 +1,24 @@
-<md-card>
-  <md-accordion *ngIf="score">
-  
-    <md-expansion-panel *ngFor="let round of score.roundsInfo.rounds">
-      <md-expansion-panel-header>
-        {{round.name}}
-      </md-expansion-panel-header>  
+<md-accordion *ngIf="score">
 
-      <md-table #table>
-        
-      </md-table>
+  <md-expansion-panel *ngFor="let round of score.roundsInfo.rounds; let roundRowId=index"  [expanded]="step === roundRowId" (opened)="setStep(roundRowId)">
+    <md-expansion-panel-header>
+      {{round.name}}
+    </md-expansion-panel-header>  
 
-    </md-expansion-panel>
+    <md-list>
+      <md-list-item *ngFor="let end of getEndsForRound(roundRowId)" (click)="onEndClick(end)">
 
-  </md-accordion>
-</md-card>
+          <div class="scoreField" 
+          *ngFor="let point of end"
+          [style.background-color]="point ? point.fill : 'white'" >{{point.displayValue}}</div>
+        <!-- <span class="scoreField" *ngFor="let point of end">{{point.displayValue}}</span> -->
+      </md-list-item>
+    </md-list>
+
+    <md-action-row>
+      <button md-button color="warn" (click)="prevStep()">Previous</button>
+      <button md-button color="primary" (click)="nextStep()">Next</button>
+    </md-action-row>
+  </md-expansion-panel>
+
+</md-accordion>
