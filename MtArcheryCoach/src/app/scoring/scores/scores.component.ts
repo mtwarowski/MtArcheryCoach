@@ -73,7 +73,7 @@ export interface IPoint{
   cy: number;
   stroke: string;
   fill: string;
-  strokeWidth: string;
+  strokeWidth: number;
 
   value: number;
   displayValue: string;

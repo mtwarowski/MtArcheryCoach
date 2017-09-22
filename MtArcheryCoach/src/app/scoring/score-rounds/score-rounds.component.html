@@ -6,9 +6,9 @@
     </md-expansion-panel-header>  
 
     <md-list>
-      <md-list-item *ngFor="let end of getEndsForRound(roundRowId)" (click)="onEndClick(end)">
+      <md-list-item *ngFor="let end of getEndsForRound(roundRowId); let endRowId=index" (click)="onEndClick(roundRowId, endRowId)">
 
-          <div class="scoreField" 
+          <div class="scoreCircle" 
           *ngFor="let point of end"
           [style.background-color]="point ? point.fill : 'white'" >{{point.displayValue}}</div>
         <!-- <span class="scoreField" *ngFor="let point of end">{{point.displayValue}}</span> -->

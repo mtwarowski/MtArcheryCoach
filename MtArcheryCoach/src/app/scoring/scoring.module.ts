@@ -80,7 +80,7 @@ export interface ITargetField{
   cy: number;
   stroke: string;
   fill: string;
-  strokeWidth: string;
+  strokeWidth: number;
 
   point: number;
   displayPoint: string;

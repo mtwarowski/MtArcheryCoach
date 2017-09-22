@@ -1,0 +1,16 @@
+.scoreCircle {
+    width: 2em;
+    height: 2em;
+    box-sizing: initial;
+    margin: 0.2em;
+
+    border: 0.1em solid #666;
+    color: #666;
+    text-align: center;
+    border-radius: 50%;    
+    
+    line-height: 2em;
+    box-sizing: content-box;   
+
+    float: left;
+}

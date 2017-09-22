@@ -81,9 +81,14 @@ export class ScoreRoundsComponent implements OnInit {
     return <IPoint>{ displayValue: "--", value: 0 };
   }
   
-  onEndClick(end: any){
+  onEndClick(roundRowId: number, endRowId: number){
     
     var resourcePath = '/score-edit/' + this.score.$key;
+
+    if(roundRowId != null && roundRowId != undefined  && endRowId != null && endRowId != undefined ){
+      resourcePath += '/' + roundRowId + '/' + endRowId;
+    }
+
     this.router.navigate([resourcePath]);
   }
 }

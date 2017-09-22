@@ -11,6 +11,7 @@ const routes: Routes = [
    { path: 'score', component: ScoreComponent, canActivate: [ LoggedInGuard ] },
    { path: 'score/:uid', component: ScoreRoundsComponent, canActivate: [ LoggedInGuard ] },
    { path: 'score-edit/:uid', component: ScoreRoundsEditComponent, canActivate: [ LoggedInGuard ] },
+   { path: 'score-edit/:uid/:roundRowId/:endRowId', component: ScoreRoundsEditComponent, canActivate: [ LoggedInGuard ] },
 ];
 
 @NgModule({

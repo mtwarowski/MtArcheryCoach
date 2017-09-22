@@ -1,9 +1,10 @@
 <md-card *ngIf="score">
   <md-card-header>
-    {{endName}}
+    Round: {{editedRoundRowId}} End: {{editedEndRowId}}
   </md-card-header>
   <md-card-content>
-    {{editEndView}}
+      <div class="scoreCircle" *ngFor="let point of score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId]"
+      (click)="onPointScoreCircleClick(point)">{{point.displayValue}}</div>
   </md-card-content>
   <md-card-actions>
     <button md-button *ngFor="let targetField of score.roundsInfo.rounds[editedRoundRowId].target.targetFields" 
@@ -13,7 +14,7 @@
 </md-card>
 
 <span class="done">
-  <button md-fab>
+  <button md-fab (click)="save()">
     <md-icon>chevron_right</md-icon>
   </button>
 </span>
