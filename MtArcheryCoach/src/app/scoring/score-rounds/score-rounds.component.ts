@@ -69,8 +69,12 @@ export class ScoreRoundsComponent implements OnInit {
     return result;
   }
 
+  getRoundName(round: IShootingRoundInfo): string{
+    return round.distanceValue + round.distanceSymbol;
+  }
+
   getScoreFor(roundNo: number, endNo: number, arrowNo: number) : IPoint {
-    if(!this.score || !this.score.scoresInfo){
+    if(!this.score || !this.score.scoresInfo || !this.score.scoresInfo[roundNo].endsPoints || !this.score.scoresInfo[roundNo].endsPoints[endNo]){
       return this.getUndefindPoint();
     }
 

@@ -35,9 +35,31 @@ export class ScoreRoundsEditComponent implements OnInit {
           this.scoreObservable = this.af.object(userDataUrl + scoresRefUrl + scoreIdFromUrl);
           this.scoreObservable.subscribe((value: Score) => {
             this.score = value;
+            this.populateEmptyScores(this.score);
+            // this.score.roundsInfo.rounds.forEach(x => x.target.targetFields = x.target.targetFields
+            //   .sort((tf1, tf2) => tf1.point > tf2.point ? -1 : 1));
           });
         }
     });
+  }
+
+  populateEmptyScores(score: Score) {
+
+    if(!score.scoresInfo){
+      score.scoresInfo = [];
+    }
+
+    for (var index = 0; index < score.roundsInfo.rounds.length; index++) {
+      var round = score.roundsInfo.rounds[index];     
+
+      if(!score.scoresInfo[index]){
+        score.scoresInfo[index] = { roundName: round.distanceValue + round.distanceSymbol, endsPoints: [] }
+      }
+
+      if(!score.scoresInfo[index].endsPoints){
+        score.scoresInfo[index].endsPoints = [];
+      }
+    }
   }
 
   onPointScoreCircleClick(clickedPoint: IPoint){
@@ -49,7 +71,7 @@ export class ScoreRoundsEditComponent implements OnInit {
   onPointButtonClick(targetField: ITargetField, cx: number, cy: number){
     let currentPoints = this.getCurrentPoints();
     if(this.canAddNewPoint(currentPoints)){
-      currentPoints.push(this.map(targetField, cx, cy));
+      currentPoints.push(this.getPoint(targetField, cx, cy));
       this.setCurrentPoints(currentPoints);
     }
   }
@@ -86,16 +108,23 @@ export class ScoreRoundsEditComponent implements OnInit {
   }
 
   private getCurrentPoints(): IPoint[]{
-    return this.score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId];
+    return this.score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId] || [];
   }
 
   private setCurrentPoints(currentPoints: IPoint[]){
     this.score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId] = currentPoints;
   }
 
-  private map(targetField: ITargetField, cx: number, cy: number): IPoint {
-    return <IPoint>{ displayValue: targetField.displayPoint, value: targetField.point, fill: targetField.fill, stroke: "grey", strokeWidth: 0.1 };
+  private getPoint(targetField: ITargetField, cx: number, cy: number): IPoint {
+    let point = <IPoint>{ displayValue: targetField.displayPoint, value: targetField.point, stroke: "grey", strokeWidth: 0.1 };
+
+    if(targetField.fill){
+      point.fill = targetField.fill;
+    }
+
+    return point;
   }
+
   private canAddNewPoint(currentPoints: IPoint[]): boolean {
     return currentPoints.length <  this.score.roundsInfo.rounds[this.editedRoundRowId].arrowsPairEnd;
   }

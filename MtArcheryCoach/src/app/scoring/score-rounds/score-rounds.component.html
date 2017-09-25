@@ -2,7 +2,7 @@
 
   <md-expansion-panel *ngFor="let round of score.roundsInfo.rounds; let roundRowId=index"  [expanded]="step === roundRowId" (opened)="setStep(roundRowId)">
     <md-expansion-panel-header>
-      {{round.name}}
+      {{getRoundName(round)}}
     </md-expansion-panel-header>  
 
     <md-list>

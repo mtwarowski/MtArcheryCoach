@@ -74,23 +74,32 @@ export class ScoreComponent implements OnInit {
     
 
     for (var index = 0; index < roundsInfo.rounds.length; index++) {
-      let scoreInfo = <IScoreInfo>{ endsPoints: [] };
+      let scoreInfo = <IScoreInfo>{ 
+         roundName: roundsInfo.rounds[index].distanceValue + roundsInfo.rounds[index].distanceSymbol,
+         endsPoints: [] 
+      };
 
       for (var endIndex = 0; endIndex < roundsInfo.rounds[index].numberOfEnds; endIndex++) {
         let arrayOfPoints : IPoint[] = [];
         for (var arrowIndex = 0; arrowIndex < roundsInfo.rounds[index].arrowsPairEnd; arrowIndex++) {
           let scoreZone = roundsInfo.rounds[index].target.targetFields[0];
 
-          arrayOfPoints.push({r: arrowDimention,
-            cx: scoreZone.cx,
-            cy: scoreZone.cy,
-            stroke: scoreZone.stroke,
-            fill: scoreZone.fill,
-            strokeWidth: scoreZone.strokeWidth,
-          
+          let newPoint = <IPoint>{    
+            r: arrowDimention,
+
             value: scoreZone.point,
             displayValue: scoreZone.displayPoint
-          });
+          };
+
+          if(scoreZone){
+            newPoint.cx = scoreZone.cx;
+            newPoint.cy = scoreZone.cy;
+            newPoint.stroke = scoreZone.stroke;
+            newPoint.fill = scoreZone.fill;
+            newPoint.strokeWidth = scoreZone.strokeWidth;
+          }
+
+          arrayOfPoints.push();
         }
 
         scoreInfo.endsPoints.push(arrayOfPoints);
@@ -110,8 +119,13 @@ export class ScoreComponent implements OnInit {
 
     let result = 0;
     for (var index = 0; index < roundsInfo.rounds.length; index++) {
-      var x = roundsInfo.rounds[index];
-      result += x.arrowsPairEnd * x.numberOfEnds;
+      let x = roundsInfo.rounds[index];
+
+      let maxPointValue = x.target.targetFields.reduce((a, b) => {
+          return a.point > b.point ? a : b;
+      });
+
+      result += x.arrowsPairEnd * x.numberOfEnds * maxPointValue.point;
     }
 
     return result;

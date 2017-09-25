@@ -1,13 +1,15 @@
 <md-card *ngIf="score">
   <md-card-header>
-    Round: {{editedRoundRowId}} End: {{editedEndRowId}}
+    Round: {{editedRoundRowId}} End: {{editedEndRowId }}
   </md-card-header>
-  <md-card-content>
+  <md-card-content *ngIf="score.scoresInfo && score.scoresInfo[this.editedRoundRowId] && score.scoresInfo[this.editedRoundRowId].endsPoints">
+    <div class="scoreCircleContainer">
       <div class="scoreCircle" *ngFor="let point of score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId]"
-      (click)="onPointScoreCircleClick(point)">{{point.displayValue}}</div>
+        (click)="onPointScoreCircleClick(point)">{{point.displayValue}}</div>
+    </div>
   </md-card-content>
   <md-card-actions>
-    <button md-button *ngFor="let targetField of score.roundsInfo.rounds[editedRoundRowId].target.targetFields" 
+    <button md-button *ngFor="let targetField of score.roundsInfo.rounds[this.editedRoundRowId].target.targetFields" 
                     (click)="onPointButtonClick(targetField)">{{targetField.displayPoint}}</button>
     <button md-button (click)="onBackButtonClick()">Back</button>
   </md-card-actions>  
