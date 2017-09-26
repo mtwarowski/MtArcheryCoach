@@ -1,104 +1,92 @@
-// import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
-// import { IPoint } from '../scores/scores.component';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { IPoint } from '../scores/scores.component';
+import { ITargetField, ITarget } from '../scoring.module';
 
-// const arrowPointRadius: number = 0.5;
-// const viewBoxSize: number = 100;
+const arrowPointRadius: number = 0.5;
+const viewBoxSize: number = 100;
 
-// @Component({
-//     selector: 'arrows-target-component',
-//     template: `<div class="container-fluid">
-//     <div class="row" *ngIf="selectedPointDefinition">
-//         <span>{{selectedPointDefinition.id}}</span>
-//         <span>{{selectedPointDefinition.sortOrderNo}}</span>
-//         <span>{{selectedPointDefinition.displayValue}}</span>
-//     </div>
-//     <div class="row">
-//         {{currentHoverPointValue}}
-//     </div>
-    
-//     <div class="row">
-//         <span *ngFor="let arrowPointElement of arrowPointElements">
-//             <span >
-//                 {{arrowPointElement.pointDefId}}
-//             </span>
-//             <span>, </span>
-//         </span>
-//     </div>
-//     <!--<div class="row">
-//         <div class="btn-group" role="group">
-//             <button type="button" class="btn btn-default" (click)="zoomTargetBy(-100)"><span class="glyphicon glyphicon-zoom-out"></span></button>
-//             <button type="button" class="btn btn-default" (click)="zoomTargetBy(100)"><span class="glyphicon glyphicon-zoom-in"></span></button>
-//         </div>
-//     </div>-->
-//     <div class="row">
-//         <div class="targetContainer">
-//             <!--<div ngIf="currentHoverPointValue" class="hoverPointValue">{{currentHoverPointValue}}</div>-->
-//             <div #targetPresenter class="targetPresenter">
-//                 <svg #svg *ngIf="targetElements" [style.height]="zoom + '%'" [style.width]="zoom + '%'" [attr.viewBox]="viewBoxText">
-//                     <circle *ngFor="let targetElement of targetElements" [attr.cx]="targetElement.cx" [attr.cy]="targetElement.cy" [attr.r]="targetElement.r" [attr.stroke]="targetElement.stroke" [attr.stroke-width]="targetElement.strokeWidth" [attr.fill]="targetElement.fill"/>
-//                     <!--<circle *ngFor="let arrowPointElement of arrowPointElements" [attr.cx]="arrowPointElement.cx" [attr.cy]="arrowPointElement.cy"[attr.r]="arrowPointElement.r" [attr.stroke]="arrowPointElement.stroke" [attr.stroke-width]="arrowPointElement.strokeWidth" [attr.fill]="arrowPointElement.fill"/>-->
-//                     <circle *ngFor="let arrowPoint of arrowPoints" [attr.cx]="arrowPoint.targetView.cx" [attr.cy]="arrowPoint.targetView.cy" [attr.r]="arrowPoint.targetView.r" [attr.stroke]="arrowPoint.targetView.stroke" [attr.stroke-width]="arrowPoint.targetView.strokeWidth" [attr.fill]="arrowPoint.targetView.fill"/>
-//                     <circle class="targetCursor" [attr.cx]="targetCursorCircle.cx" [attr.cy]="targetCursorCircle.cy" [attr.r]="targetCursorCircle.r" [attr.stroke]="targetCursorCircle.stroke" [attr.stroke-width]="targetCursorCircle.strokeWidth" [attr.fill]="targetCursorCircle.fill"/>
-//                 </svg>
-//             </div>
-//         </div>
-//     </div>
-//     </div>`,
-//     styles: [
-//         `
-// .targetContainer{
-//    position: relative;
-//    width: 100%;
-//    padding-top: 100%;
-// }
+@Component({
+    selector: 'arrows-target-component',
+    template: `
+    <div class="container-fluid">
+        <!--TODO THIS MIGHT BE DELETED IF WE DON'T HAVE ANY ZOOM IN FEATURE 
+        <div class="row">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" (click)="zoomTargetBy(-100)"><span class="glyphicon glyphicon-zoom-out"></span></button>
+                <button type="button" class="btn btn-default" (click)="zoomTargetBy(100)"><span class="glyphicon glyphicon-zoom-in"></span></button>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="targetContainer">
+                <div #targetPresenter class="targetPresenter">
+                    <svg #svg *ngIf="targetFields" [style.height]="zoom + '%'" [style.width]="zoom + '%'" [attr.viewBox]="viewBoxText">
+                        <circle *ngFor="let targetElement of targetFields" [attr.cx]="targetElement.cx" [attr.cy]="targetElement.cy" [attr.r]="targetElement.r" [attr.stroke]="targetElement.stroke" [attr.stroke-width]="targetElement.strokeWidth" [attr.fill]="targetElement.fill"/>
+                        <!--<circle *ngFor="let arrowPointElement of arrowPointElements" [attr.cx]="arrowPointElement.cx" [attr.cy]="arrowPointElement.cy"[attr.r]="arrowPointElement.r" [attr.stroke]="arrowPointElement.stroke" [attr.stroke-width]="arrowPointElement.strokeWidth" [attr.fill]="arrowPointElement.fill"/>-->
+                        <!--<circle *ngFor="let arrowPoint of arrowPoints" [attr.cx]="arrowPoint.targetView.cx" [attr.cy]="arrowPoint.targetView.cy" [attr.r]="arrowPoint.targetView.r" [attr.stroke]="arrowPoint.targetView.stroke" [attr.stroke-width]="arrowPoint.targetView.strokeWidth" [attr.fill]="arrowPoint.targetView.fill"/>-->
+                        <circle class="targetCursor" [attr.cx]="targetCursorCircle.cx" [attr.cy]="targetCursorCircle.cy" [attr.r]="targetCursorCircle.r" [attr.stroke]="targetCursorCircle.stroke" [attr.stroke-width]="targetCursorCircle.strokeWidth" [attr.fill]="targetCursorCircle.fill"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>`,
+    styles: [
+        `
+.targetContainer{
+   position: relative;
+   width: 100%;
+   padding-top: 100%;
+}
 
-// .targetPresenter{
-//    position:  absolute;
-//    top: 0;
-//    left: 0;
-//    bottom: 0;
-//    right: 0;
-//    overflow: hidden;
-// }
+.targetPresenter{
+   position:  absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   overflow: hidden;
+}
 
-// .hoverPointValue{
-//    position:  absolute;
-//    top: 0;
-//    overflow: hidden;
-// }
-// `]
-// })
-// export class ArrowsTargetComponent implements AfterViewInit  {
+.hoverPointValue{
+   position:  absolute;
+   top: 0;
+   overflow: hidden;
+}
+`]
+})
+export class ArrowsTargetComponent implements AfterViewInit  {
 
-//     public targetElements: SvgCircleElement[] = [];
-//     public viewBoxText: string = "0 0 100 100";
-//     @ViewChild('svg') svgTargetContainer: ElementRef;
-//     @ViewChild('targetPresenter') targetPresenter: ElementRef;
+     public targetFields: ITargetField[] = [];
+     public viewBoxText: string = "0 0 100 100";
+     @ViewChild('svg') svgTargetContainer: ElementRef;
+     @ViewChild('targetPresenter') targetPresenter: ElementRef;
 
-//     public svgTarget: any;
-//     public targetCursorCircle: any;
-//     public zoom: number = 100;
-    
+     public svgTarget: any;
+     public targetCursorCircle: any;
+     public zoom: number = 100;
+  
+//TODO THIS MIGHT BE DELETED  
 //     private _pointSetDefinition: PointSetDefinition;
 //     get pointSetDefinition(): PointSetDefinition {
 //         return this._pointSetDefinition;
 //     }
 
+//TODO THIS MIGHT BE DELETED
 //     private zeroPointDef: PointDefinition;
 
-//     @Input('pointSetDefinition')
-//     set pointSetDefinition(value: PointSetDefinition) {
-//         this._pointSetDefinition = value;
+    private _target: ITarget;
+    private zeroTargetField: ITargetField;
+
+    @Input('target')
+    set target(value: ITarget) {
+        this._target = value;
         
-//         var pointDefs = this.pointSetDefinition.availablePoints
-//             .filter(v => v.targetView != null && v.targetView != undefined);
+        var nonZeroTargetFields = this._target.targetFields.filter(v => v.fill != null && v.fill != undefined);
 
-//         this.zeroPointDef = this.pointSetDefinition.availablePoints.filter(v => v.value === 0)[0];
-//         var sortedPointDefs = pointDefs.sort((a, b) => a.targetView.r - b.targetView.r);
+        this.zeroTargetField = this._target.targetFields.filter(v => v.point === 0)[0];
+        this.targetFields = nonZeroTargetFields.sort((a, b) => a.r > b.r ? -1 : 1);
 
-//         this.generateTargetFromDefs(sortedPointDefs);
-//         this.viewBoxText = this.generateViewBox(sortedPointDefs);
-//     }
+        this.viewBoxText = this.generateViewBox(this.targetFields);
+    }
     
 //     public _arrowPoints: IPoint[];
 //     @Input() 
@@ -109,18 +97,18 @@
 //         this._arrowPoints = newArrowPoints;
 //     }
 
-//     @Output("arrowPointSelected") public arrowPointSelected: EventEmitter<Point> = new EventEmitter();
+     @Output("arrowPointSelected") public arrowPointSelected: EventEmitter<IPoint> = new EventEmitter();
     
-//     @HostListener('mouseup')
-//     @HostListener('touchend')
-//     onMouseup() {
-//         if (this.mouseInTargetZone()) {
-//             var newArrowPoint = this.getArrowPoint(this.targetCursorCircle);
-//             this.arrowPointSelected.emit(newArrowPoint);
-//         }
+    @HostListener('mouseup')
+    @HostListener('touchend')
+    onMouseup() {
+        if (this.mouseInTargetZone()) {
+            var newArrowPoint = this.getArrowPoint(this.targetCursorCircle);
+            this.arrowPointSelected.emit(newArrowPoint);
+        }
 
 //         this.zoomOut();
-//     }
+     }
 
 //     private _pageY: number;
 //     private _pageX: number;
@@ -206,30 +194,30 @@
 //     }
 
     
-//     @HostListener('mousemove', ['$event'])
-//     onMousemove(event: UserInputPosition) {
+    @HostListener('mousemove', ['$event'])
+    onMousemove(event: UserInputPosition) {
 
-//         if (!this.targetCursorCircle)
-//             return;
+        if (!this.targetCursorCircle)
+            return;
 
-//         var cursorPosition = this.getCursorPosition(event);
-//         this.targetCursorCircle.cx = cursorPosition.x;
-//         this.targetCursorCircle.cy = cursorPosition.y;
+        var cursorPosition = this.getCursorPosition(event);
+        this.targetCursorCircle.cx = cursorPosition.x;
+        this.targetCursorCircle.cy = cursorPosition.y;
 
-//         this.currentHoverPointValue = "";
-//         if (this.mouseInTargetZone()) {
-//             this.onUserInputPositionChange(event);
-//             var pointDefId = this.getArrowSvgCircleElement(this.targetCursorCircle).pointDefId;
+        // this.currentHoverPointValue = "";
+        // if (this.mouseInTargetZone()) {
+        //     this.onUserInputPositionChange(event);
+        //     var pointDefId = this.getArrowSvgCircleElement(this.targetCursorCircle).pointDefId;
 
-//             for (var i = 0; i < this.pointSetDefinition.availablePoints.length; i++) {
+        //     for (var i = 0; i < this.pointSetDefinition.availablePoints.length; i++) {
 
-//                 if (pointDefId === this.pointSetDefinition.availablePoints[i].id)
-//                     this.currentHoverPointValue = this.pointSetDefinition.availablePoints[i].displayValue +
-//                         " of value: " +
-//                         this.pointSetDefinition.availablePoints[i].value;
-//             }
-//         }
-//     }
+        //         if (pointDefId === this.pointSetDefinition.availablePoints[i].id)
+        //             this.currentHoverPointValue = this.pointSetDefinition.availablePoints[i].displayValue +
+        //                 " of value: " +
+        //                 this.pointSetDefinition.availablePoints[i].value;
+        //     }
+        // }
+    }
 
 //     private zoomIn() {
 //         this.zoom = this.zoom * 3;
@@ -239,10 +227,10 @@
 //         this.zoom = 100;
 //     }
 
-//     private getCursorPosition(event: UserInputPosition) : SvgPointElement {
-//         this.targetCursorCircle.x = event.clientX; this.targetCursorCircle.y = event.clientY;
-//         return this.targetCursorCircle.matrixTransform(this.svgTarget.getScreenCTM().inverse());
-//     }
+    private getCursorPosition(event: UserInputPosition) : SvgPointElement {
+        this.targetCursorCircle.x = event.clientX; this.targetCursorCircle.y = event.clientY;
+        return this.targetCursorCircle.matrixTransform(this.svgTarget.getScreenCTM().inverse());
+    }
 
 //     public currentHoverPointValue: string;
 //     constructor() {
@@ -250,19 +238,19 @@
 //         this.currentHoverPointValue = '--';
 //     }
 
-//     ngAfterViewInit(): void {
-//         this.svgTarget = this.svgTargetContainer.nativeElement;
-//         this.targetCursorCircle = this.svgTarget.createSVGPoint();
-//         this.targetCursorCircle.r = arrowPointRadius;
-//         this.targetCursorCircle.strokeWidth = 0.02;
-//         this.targetCursorCircle.stroke = "grey";
-//         this.targetCursorCircle.fill = "yellow";
-//         this.targetCursorCircle.cx = 0;
-//         this.targetCursorCircle.cy = 0;
-//         this.targetCursorCircle.pointDefId = 0;
+    ngAfterViewInit(): void {
+        this.svgTarget = this.svgTargetContainer.nativeElement;
+        this.targetCursorCircle = this.svgTarget.createSVGPoint();
+        this.targetCursorCircle.r = arrowPointRadius;
+        this.targetCursorCircle.strokeWidth = 0.02;
+        this.targetCursorCircle.stroke = "grey";
+        this.targetCursorCircle.fill = "yellow";
+        this.targetCursorCircle.cx = 0;
+        this.targetCursorCircle.cy = 0;
+        this.targetCursorCircle.pointDefId = 0;
 
-//         //this.targetPresenter.nativeElement.onmousemove = this.onUserInputPositionChange;
-//     }
+        //this.targetPresenter.nativeElement.onmousemove = this.onUserInputPositionChange;
+    }
 
 //     public zoomTargetBy(zoomValue: number) {
 //         this.zoom = this.zoom + zoomValue;
@@ -291,36 +279,39 @@
 //     //    }
 //     //};
 
-//     private generateViewBox(pointDefinitions: PointDefinition[]): string {
-//         var biggestElement = pointDefinitions[0];
+    private generateViewBox(allTargetFields: ITargetField[]): string {
+        var biggestElement = allTargetFields[0];
 
-//         //skip first one because im getting it.
-//         for (var i = 1; i < pointDefinitions.length; i++) {
-//             var currentElement = pointDefinitions[i];
-//             if (biggestElement.targetView.r < currentElement.targetView.r) {
-//                 biggestElement = currentElement;
-//             }
-//         }
+        //skip first one because im getting it.
+        for (var i = 1; i < allTargetFields.length; i++) {
+            var currentElement = allTargetFields[i];
+            if (biggestElement.r < currentElement.r) {
+                biggestElement = currentElement;
+            }
+        }
 
 
-//         var targetFieldsWidth = (biggestElement.targetView.r + (biggestElement.targetView.strokeWidth / 2)) * 2 * 1.1;
-//         var startXPosition =biggestElement.targetView.cx - (targetFieldsWidth / 2);
-//         var StartYPosition =biggestElement.targetView.cy - (targetFieldsWidth / 2);
+        var targetFieldsWidth = (biggestElement.r + (biggestElement.strokeWidth / 2)) * 2 * 1.1;
+        var startXPosition =biggestElement.cx - (targetFieldsWidth / 2);
+        var StartYPosition =biggestElement.cy - (targetFieldsWidth / 2);
 
-//         return "" + startXPosition + " " + StartYPosition + " " + targetFieldsWidth + " " + targetFieldsWidth;
-//     }
+        return "" + startXPosition + " " + StartYPosition + " " + targetFieldsWidth + " " + targetFieldsWidth;
+    }
 
-//     private generateTargetFromDefs(pointDefinitions: PointDefinition[]): void {
-//         this.targetElements = [];
 
-//         var maxRValue = 0.99;
-//         var baseStrokeWidth = 0.002;
-//         for (var i = pointDefinitions.length - 1; i >= 0; i--) {
-//             var fieldSize = (maxRValue / pointDefinitions.length) * (i + 1) / 2;
-//             this.targetElements.push(this.generateTargetRing(pointDefinitions[i].targetView, pointDefinitions[i].id));
-//         }
-//     }
+//TODO THIS MIGHT BE DELETED
+    // private generateTargetFromDefs(pointDefinitions: PointDefinition[]): void {
+    //     this.targetElements = [];
 
+    //     var maxRValue = 0.99;
+    //     var baseStrokeWidth = 0.002;
+    //     for (var i = pointDefinitions.length - 1; i >= 0; i--) {
+    //         var fieldSize = (maxRValue / pointDefinitions.length) * (i + 1) / 2;
+    //         this.targetElements.push(this.generateTargetRing(pointDefinitions[i].targetView, pointDefinitions[i].id));
+    //     }
+    // }
+
+//TODO THIS MIGHT BE DELETED
 //     private generateTargetRing(targetView: ITargetView, pointDefId: number): SvgCircleElement {
 //         return {
 //             r: targetView.r,
@@ -333,83 +324,89 @@
 //         }
 //     };
 
-//     private mouseInTargetZone() : boolean {
-//         return 0 <= this.targetCursorCircle.cx && this.targetCursorCircle.cx <= viewBoxSize
-//             && 0 <= this.targetCursorCircle.cy && this.targetCursorCircle.cy <= viewBoxSize;
-//     }
+    private mouseInTargetZone() : boolean {
+        return 0 <= this.targetCursorCircle.cx && this.targetCursorCircle.cx <= viewBoxSize
+            && 0 <= this.targetCursorCircle.cy && this.targetCursorCircle.cy <= viewBoxSize;
+    }
 
-//     private getArrowPoint(targetCursorCircle: SvgCirclePointElement): Point {
-//         var arrowSvgCircleElement = this.getArrowSvgCircleElement(targetCursorCircle);
-//         var pointDef = getPointDefById(this.pointSetDefinition.availablePoints, arrowSvgCircleElement.pointDefId);
-//         return { id: 0, scoreRoundId: 0, value: pointDef.value, displayValue: pointDef.displayValue, pointDefinitionId: pointDef.id, targetView: arrowSvgCircleElement };
-//     }
+    private getArrowPoint(targetCursorCircle: SvgCirclePointElement): IPoint {
+        var selectedTargetFieldElement = this.getSelectedTargetFieldElement(targetCursorCircle);
 
-//     private getArrowSvgCircleElement(targetCursorCircle: SvgCirclePointElement): SvgCircleElement {
+        return { cx: targetCursorCircle.cx, cy: targetCursorCircle.cy, fill: targetCursorCircle.fill, stroke: targetCursorCircle.stroke, r: targetCursorCircle.r, strokeWidth: targetCursorCircle.strokeWidth, 
+          value: selectedTargetFieldElement.point, displayValue: selectedTargetFieldElement.displayPoint
+        };
+        // var pointDef = getPointDefById(this.pointSetDefinition.availablePoints, arrowSvgCircleElement.pointDefId);
+        // return { id: 0, scoreRoundId: 0, value: pointDef.value, displayValue: pointDef.displayValue, pointDefinitionId: pointDef.id, targetView: arrowSvgCircleElement };
+    }
 
-//         if (0 > targetCursorCircle.cx || targetCursorCircle.cx - targetCursorCircle.r > 100 ||
-//             0 > targetCursorCircle.cy || targetCursorCircle.cy - targetCursorCircle.r > 100){
-//             //console.error("Invalid pointer coordinates: x=" + targetCursorCircle.cx + " y=" + targetCursorCircle.cy);
-//             return null;
-//         }
+    private getSelectedTargetFieldElement(targetCursorCircle: SvgCirclePointElement): ITargetField {
 
-//         var pointDefId = this.zeroPointDef.id;
-//         for (var i = this.targetElements.length - 1; i >= 0; i--) {
-//             var targetElement = this.targetElements[i];
+        if (0 > targetCursorCircle.cx || targetCursorCircle.cx - targetCursorCircle.r > 100 ||
+            0 > targetCursorCircle.cy || targetCursorCircle.cy - targetCursorCircle.r > 100){
+            //console.error("Invalid pointer coordinates: x=" + targetCursorCircle.cx + " y=" + targetCursorCircle.cy);
+            return null;
+        }
 
-//             if (this.isPointingTargetElement(targetElement, targetCursorCircle)) {
-//                 pointDefId = targetElement.pointDefId;
-//                 break;
-//             }
-//         }
-//         var newTargetCircle = Object.assign({}, targetCursorCircle);
-//         newTargetCircle.pointDefId = pointDefId;
-//         return newTargetCircle;
-//     }
+        let selectedTargetField = this.zeroTargetField;
+        for (var i = this.targetFields.length - 1; i >= 0; i--) {
+            var targetElement = this.targetFields[i];
 
-//     private isPointingTargetElement(targetElement: SvgCircleElement, targetCursorCircle: SvgCircleElement): boolean {
+            if (this.isPointingTargetElement(targetElement, targetCursorCircle)) {
+                selectedTargetField = targetElement;
+                break;
+            }
+        }
 
-//         // dx and dy are the vertical and horizontal distances
-//         var dx = targetElement.cx - targetCursorCircle.cx;
-//         var dy = targetElement.cy - targetCursorCircle.cy;
+        return selectedTargetField;
+        // let newTargetCircle = Object.assign({}, targetCursorCircle);
+        // newTargetCircle.pointDefId = pointDefId;
+        // return newTargetCircle;
+    }
 
-//         // Determine the straight-line distance between centers.
-//         var d = Math.sqrt((dy * dy) + (dx * dx));
+    private isPointingTargetElement(targetElement: ITargetField, targetCursorCircle: SvgCircleElement): boolean {
 
-//         var isPointingTarget = (targetElement.r + (targetElement.strokeWidth / 2) + targetCursorCircle.r + (targetCursorCircle.strokeWidth / 2)) >= d;
+        // dx and dy are the vertical and horizontal distances
+        var dx = targetElement.cx - targetCursorCircle.cx;
+        var dy = targetElement.cy - targetCursorCircle.cy;
 
-//         if (isPointingTarget) {
-//             console.debug((" " + targetElement.r + " " + targetElement.strokeWidth + " " + targetCursorCircle.r + " " + targetCursorCircle.strokeWidth) + " >= " + d);
-//             console.debug((targetElement.r + targetElement.strokeWidth + targetCursorCircle.r + targetCursorCircle.strokeWidth) + " >= " + d);
-//             console.debug(("Pointing tatget of pointDefId: " + targetElement.pointDefId));
-//         }
-//         return isPointingTarget;
-//     }
-// }
+        // Determine the straight-line distance between centers.
+        var d = Math.sqrt((dy * dy) + (dx * dx));
 
-// export class UserInputPosition {
-//     pageX: number;
-//     pageY: number;
-//     clientX: number;
-//     clientY: number;
-// }
+        var isPointingTarget = (targetElement.r + (targetElement.strokeWidth / 2) + targetCursorCircle.r + (targetCursorCircle.strokeWidth / 2)) >= d;
+
+        // if (isPointingTarget) {
+        //     console.debug((" " + targetElement.r + " " + targetElement.strokeWidth + " " + targetCursorCircle.r + " " + targetCursorCircle.strokeWidth) + " >= " + d);
+        //     console.debug((targetElement.r + targetElement.strokeWidth + targetCursorCircle.r + targetCursorCircle.strokeWidth) + " >= " + d);
+        //     console.debug(("Pointing tatget of pointDefId: " + targetElement.pointDefId));
+        // }
+        return isPointingTarget;
+    }
+}
+
+export class UserInputPosition {
+    pageX: number;
+    pageY: number;
+    clientX: number;
+    clientY: number;
+}
 
 
-// export class SvgPointElement {
-//     x: number;
-//     y: number;
-// }
+export class SvgPointElement {
+    x: number;
+    y: number;
+}
 
-// export class SvgCircleElement {
-//     cx: number;
-//     cy: number;
-//     r: number;
-//     strokeWidth: number;
-//     stroke: string;
-//     fill: string;
-//     pointDefId: number;
-// }
+export class SvgCircleElement {
+    cx: number;
+    cy: number;
+    r: number;
+    strokeWidth: number;
+    stroke: string;
+    fill: string;
+    pointDefId: number;
+}
 
-// export class SvgCirclePointElement extends SvgCircleElement {
-//     x: number;
-//     y: number;
-// }
+export class SvgCirclePointElement extends SvgCircleElement {
+    x: number;
+    y: number;
+}

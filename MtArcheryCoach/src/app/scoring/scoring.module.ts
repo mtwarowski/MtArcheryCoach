@@ -10,6 +10,7 @@ import { ScoringRoutingModule } from "./scoring-routing.module";
 import { ScoreComponent } from './score/score.component';
 import { ScoreRoundsComponent } from './score-rounds/score-rounds.component';
 import { ScoreRoundsEditComponent } from './score-rounds-edit/score-rounds-edit.component';
+import { ArrowsTargetComponent } from './score-rounds-edit/arrows-target.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { ScoreRoundsEditComponent } from './score-rounds-edit/score-rounds-edit.
     MdExpansionModule,
     FlexLayoutModule
   ],
-  declarations: [ScoresComponent, ScoreDeleteConfirmDialog, ScoreComponent, ScoreRoundsComponent, ScoreRoundsEditComponent],
+  declarations: [ScoresComponent, ScoreDeleteConfirmDialog, ScoreComponent, ScoreRoundsComponent, ScoreRoundsEditComponent, ArrowsTargetComponent],
   exports: [
     MdNativeDateModule,
     MdButtonModule,
