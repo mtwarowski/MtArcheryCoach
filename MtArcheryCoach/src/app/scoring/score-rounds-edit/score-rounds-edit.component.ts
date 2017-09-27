@@ -68,6 +68,14 @@ export class ScoreRoundsEditComponent implements OnInit {
     this.setCurrentPoints(currentPoints);
   }
 
+  onArrowPointSelected(point: IPoint){
+    let currentPoints = this.getCurrentPoints();
+    if(this.canAddNewPoint(currentPoints)){
+      currentPoints.push(point);
+      this.setCurrentPoints(currentPoints);
+    }
+  }
+
   onPointButtonClick(targetField: ITargetField, cx: number, cy: number){
     let currentPoints = this.getCurrentPoints();
     if(this.canAddNewPoint(currentPoints)){

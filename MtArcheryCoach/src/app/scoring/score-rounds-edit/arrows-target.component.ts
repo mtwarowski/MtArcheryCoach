@@ -21,9 +21,8 @@ const viewBoxSize: number = 100;
                 <div #targetPresenter class="targetPresenter">
                     <svg #svg *ngIf="targetFields" [style.height]="zoom + '%'" [style.width]="zoom + '%'" [attr.viewBox]="viewBoxText">
                         <circle *ngFor="let targetElement of targetFields" [attr.cx]="targetElement.cx" [attr.cy]="targetElement.cy" [attr.r]="targetElement.r" [attr.stroke]="targetElement.stroke" [attr.stroke-width]="targetElement.strokeWidth" [attr.fill]="targetElement.fill"/>
-                        <!--<circle *ngFor="let arrowPointElement of arrowPointElements" [attr.cx]="arrowPointElement.cx" [attr.cy]="arrowPointElement.cy"[attr.r]="arrowPointElement.r" [attr.stroke]="arrowPointElement.stroke" [attr.stroke-width]="arrowPointElement.strokeWidth" [attr.fill]="arrowPointElement.fill"/>-->
-                        <!--<circle *ngFor="let arrowPoint of arrowPoints" [attr.cx]="arrowPoint.targetView.cx" [attr.cy]="arrowPoint.targetView.cy" [attr.r]="arrowPoint.targetView.r" [attr.stroke]="arrowPoint.targetView.stroke" [attr.stroke-width]="arrowPoint.targetView.strokeWidth" [attr.fill]="arrowPoint.targetView.fill"/>-->
-                        <circle class="targetCursor" [attr.cx]="targetCursorCircle.cx" [attr.cy]="targetCursorCircle.cy" [attr.r]="targetCursorCircle.r" [attr.stroke]="targetCursorCircle.stroke" [attr.stroke-width]="targetCursorCircle.strokeWidth" [attr.fill]="targetCursorCircle.fill"/>
+                        <circle *ngFor="let arrowPointElement of arrowPoints" [attr.cx]="arrowPointElement.cx" [attr.cy]="arrowPointElement.cy"[attr.r]="arrowPointElement.r" [attr.stroke]="arrowPointElement.stroke" [attr.stroke-width]="arrowPointElement.strokeWidth" [attr.fill]="arrowPointElement.fill"/>
+                        <circle *ngIf="targetCursorCircle" class="targetCursor" [attr.cx]="targetCursorCircle.cx" [attr.cy]="targetCursorCircle.cy" [attr.r]="targetCursorCircle.r" [attr.stroke]="targetCursorCircle.stroke" [attr.stroke-width]="targetCursorCircle.strokeWidth" [attr.fill]="targetCursorCircle.fill"/>
                     </svg>
                 </div>
             </div>
@@ -64,15 +63,6 @@ export class ArrowsTargetComponent implements AfterViewInit  {
      public targetCursorCircle: any;
      public zoom: number = 100;
   
-//TODO THIS MIGHT BE DELETED  
-//     private _pointSetDefinition: PointSetDefinition;
-//     get pointSetDefinition(): PointSetDefinition {
-//         return this._pointSetDefinition;
-//     }
-
-//TODO THIS MIGHT BE DELETED
-//     private zeroPointDef: PointDefinition;
-
     private _target: ITarget;
     private zeroTargetField: ITargetField;
 
@@ -88,16 +78,16 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         this.viewBoxText = this.generateViewBox(this.targetFields);
     }
     
-//     public _arrowPoints: IPoint[];
-//     @Input() 
-//     get arrowPoints() {
-//         return this._arrowPoints.filter(value => <any>(value)  && <any>(value.targetView));
-//     }
-//     set arrowPoints(newArrowPoints: IPoint[]) {
-//         this._arrowPoints = newArrowPoints;
-//     }
+    public _arrowPoints: IPoint[] = [];
+    @Input("arrowPoints") 
+    get arrowPoints() {
+        return this._arrowPoints.filter(value => <any>(value)  && <any>(value.fill)) || [];
+    }
+    set arrowPoints(newArrowPoints: IPoint[]) {
+        this._arrowPoints = newArrowPoints || [];
+    }
 
-     @Output("arrowPointSelected") public arrowPointSelected: EventEmitter<IPoint> = new EventEmitter();
+    @Output("arrowPointSelected") public arrowPointSelected: EventEmitter<IPoint> = new EventEmitter();
     
     @HostListener('mouseup')
     @HostListener('touchend')
@@ -106,7 +96,6 @@ export class ArrowsTargetComponent implements AfterViewInit  {
             var newArrowPoint = this.getArrowPoint(this.targetCursorCircle);
             this.arrowPointSelected.emit(newArrowPoint);
         }
-
 //         this.zoomOut();
      }
 
@@ -232,11 +221,9 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         return this.targetCursorCircle.matrixTransform(this.svgTarget.getScreenCTM().inverse());
     }
 
-//     public currentHoverPointValue: string;
-//     constructor() {
-//         this.targetCursorCircle = { cx: 0, cy: 0 };
-//         this.currentHoverPointValue = '--';
-//     }
+    constructor() {
+        this.targetCursorCircle = { cx: 0, cy: 0 };
+    }
 
     ngAfterViewInit(): void {
         this.svgTarget = this.svgTargetContainer.nativeElement;
@@ -255,29 +242,6 @@ export class ArrowsTargetComponent implements AfterViewInit  {
 //     public zoomTargetBy(zoomValue: number) {
 //         this.zoom = this.zoom + zoomValue;
 //     }
-
-//     //private generateTarget(pointDefinitions: PointDefinition[]): void {
-//     //    this.targetElements = [];
-
-//     //    var maxRValue = 0.99;
-//     //    var baseStrokeWidth = 0.002;
-//     //    for (var i = pointDefinitions.length - 1; i >= 0; i--) {
-//     //        var fieldSize = (maxRValue / pointDefinitions.length) * (i + 1) / 2;
-//     //        this.targetElements.push(this.generateTargetRing(pointDefinitions[i].targetView, fieldSize - baseStrokeWidth, baseStrokeWidth, pointDefinitions[i].id));
-//     //    }
-//     //}
-
-//     //private generateTargetRing(targetView: ITargetView, rPercentage: number, strokeWidth: number, pointDefId: number): SvgCircleElement {
-//     //    return {
-//     //        r: rPercentage * 100,
-//     //        strokeWidth: strokeWidth * 100,
-//     //        stroke: targetView.stroke,
-//     //        fill: targetView.fill,
-//     //        cx: 50,
-//     //        cy: 50,
-//     //        pointDefId: pointDefId
-//     //    }
-//     //};
 
     private generateViewBox(allTargetFields: ITargetField[]): string {
         var biggestElement = allTargetFields[0];
@@ -298,32 +262,6 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         return "" + startXPosition + " " + StartYPosition + " " + targetFieldsWidth + " " + targetFieldsWidth;
     }
 
-
-//TODO THIS MIGHT BE DELETED
-    // private generateTargetFromDefs(pointDefinitions: PointDefinition[]): void {
-    //     this.targetElements = [];
-
-    //     var maxRValue = 0.99;
-    //     var baseStrokeWidth = 0.002;
-    //     for (var i = pointDefinitions.length - 1; i >= 0; i--) {
-    //         var fieldSize = (maxRValue / pointDefinitions.length) * (i + 1) / 2;
-    //         this.targetElements.push(this.generateTargetRing(pointDefinitions[i].targetView, pointDefinitions[i].id));
-    //     }
-    // }
-
-//TODO THIS MIGHT BE DELETED
-//     private generateTargetRing(targetView: ITargetView, pointDefId: number): SvgCircleElement {
-//         return {
-//             r: targetView.r,
-//             strokeWidth: targetView.strokeWidth,
-//             stroke: targetView.stroke,
-//             fill: targetView.fill,
-//             cx: targetView.cx,
-//             cy: targetView.cy,
-//             pointDefId: pointDefId
-//         }
-//     };
-
     private mouseInTargetZone() : boolean {
         return 0 <= this.targetCursorCircle.cx && this.targetCursorCircle.cx <= viewBoxSize
             && 0 <= this.targetCursorCircle.cy && this.targetCursorCircle.cy <= viewBoxSize;
@@ -335,15 +273,13 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         return { cx: targetCursorCircle.cx, cy: targetCursorCircle.cy, fill: targetCursorCircle.fill, stroke: targetCursorCircle.stroke, r: targetCursorCircle.r, strokeWidth: targetCursorCircle.strokeWidth, 
           value: selectedTargetFieldElement.point, displayValue: selectedTargetFieldElement.displayPoint
         };
-        // var pointDef = getPointDefById(this.pointSetDefinition.availablePoints, arrowSvgCircleElement.pointDefId);
-        // return { id: 0, scoreRoundId: 0, value: pointDef.value, displayValue: pointDef.displayValue, pointDefinitionId: pointDef.id, targetView: arrowSvgCircleElement };
     }
 
     private getSelectedTargetFieldElement(targetCursorCircle: SvgCirclePointElement): ITargetField {
 
         if (0 > targetCursorCircle.cx || targetCursorCircle.cx - targetCursorCircle.r > 100 ||
             0 > targetCursorCircle.cy || targetCursorCircle.cy - targetCursorCircle.r > 100){
-            //console.error("Invalid pointer coordinates: x=" + targetCursorCircle.cx + " y=" + targetCursorCircle.cy);
+            console.error("Invalid pointer coordinates: x=" + targetCursorCircle.cx + " y=" + targetCursorCircle.cy);
             return null;
         }
 
@@ -358,9 +294,6 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         }
 
         return selectedTargetField;
-        // let newTargetCircle = Object.assign({}, targetCursorCircle);
-        // newTargetCircle.pointDefId = pointDefId;
-        // return newTargetCircle;
     }
 
     private isPointingTargetElement(targetElement: ITargetField, targetCursorCircle: SvgCircleElement): boolean {
@@ -373,12 +306,6 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         var d = Math.sqrt((dy * dy) + (dx * dx));
 
         var isPointingTarget = (targetElement.r + (targetElement.strokeWidth / 2) + targetCursorCircle.r + (targetCursorCircle.strokeWidth / 2)) >= d;
-
-        // if (isPointingTarget) {
-        //     console.debug((" " + targetElement.r + " " + targetElement.strokeWidth + " " + targetCursorCircle.r + " " + targetCursorCircle.strokeWidth) + " >= " + d);
-        //     console.debug((targetElement.r + targetElement.strokeWidth + targetCursorCircle.r + targetCursorCircle.strokeWidth) + " >= " + d);
-        //     console.debug(("Pointing tatget of pointDefId: " + targetElement.pointDefId));
-        // }
         return isPointingTarget;
     }
 }

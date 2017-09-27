@@ -7,7 +7,9 @@
       <div class="scoreCircle" *ngFor="let point of score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId]"
         (click)="onPointScoreCircleClick(point)">{{point.displayValue}}</div>
     </div>
-    <arrows-target-component [target]="score.roundsInfo.rounds[this.editedRoundRowId].target"></arrows-target-component>
+    <arrows-target-component [target]="score.roundsInfo.rounds[this.editedRoundRowId].target"
+    [arrowPoints]="score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId]"
+    (arrowPointSelected)="onArrowPointSelected($event)"></arrows-target-component>
   </md-card-content>
   <md-card-actions>
     <button md-button *ngFor="let targetField of score.roundsInfo.rounds[this.editedRoundRowId].target.targetFields" 
