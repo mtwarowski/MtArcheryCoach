@@ -9,7 +9,7 @@
     </div>
     <arrows-target-component [target]="score.roundsInfo.rounds[this.editedRoundRowId].target"
     [arrowPoints]="score.scoresInfo[this.editedRoundRowId].endsPoints[this.editedEndRowId]"
-    (arrowPointSelected)="onArrowPointSelected($event)"></arrows-target-component>
+    (arrowPointSelected)="tryAddPoint($event)"></arrows-target-component>
   </md-card-content>
   <md-card-actions>
     <button md-button *ngFor="let targetField of score.roundsInfo.rounds[this.editedRoundRowId].target.targetFields" 

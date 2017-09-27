@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, Eleme
 import { IPoint } from '../scores/scores.component';
 import { ITargetField, ITarget } from '../scoring.module';
 
-const arrowPointRadius: number = 0.5;
+const arrowPointRadius: number = 0.25;
 const viewBoxSize: number = 100;
 
 @Component({
@@ -230,8 +230,8 @@ export class ArrowsTargetComponent implements AfterViewInit  {
         this.targetCursorCircle = this.svgTarget.createSVGPoint();
         this.targetCursorCircle.r = arrowPointRadius;
         this.targetCursorCircle.strokeWidth = 0.02;
-        this.targetCursorCircle.stroke = "grey";
-        this.targetCursorCircle.fill = "yellow";
+        this.targetCursorCircle.stroke = "Grey";
+        this.targetCursorCircle.fill = "lightgrey";
         this.targetCursorCircle.cx = 0;
         this.targetCursorCircle.cy = 0;
         this.targetCursorCircle.pointDefId = 0;

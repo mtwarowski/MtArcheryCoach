@@ -68,20 +68,17 @@ export class ScoreRoundsEditComponent implements OnInit {
     this.setCurrentPoints(currentPoints);
   }
 
-  onArrowPointSelected(point: IPoint){
+  tryAddPoint(point: IPoint){
     let currentPoints = this.getCurrentPoints();
     if(this.canAddNewPoint(currentPoints)){
       currentPoints.push(point);
       this.setCurrentPoints(currentPoints);
+      this.updateTotalScore();      
     }
   }
 
   onPointButtonClick(targetField: ITargetField, cx: number, cy: number){
-    let currentPoints = this.getCurrentPoints();
-    if(this.canAddNewPoint(currentPoints)){
-      currentPoints.push(this.getPoint(targetField, cx, cy));
-      this.setCurrentPoints(currentPoints);
-    }
+    this.tryAddPoint(this.getPoint(targetField, cx, cy));
   }
 
   onBackButtonClick() {
@@ -92,7 +89,7 @@ export class ScoreRoundsEditComponent implements OnInit {
     }
   }
 
-  private save(){
+  save(){
     this.scoreObservable.update(this.score).then(() => {
 
       let maxNumnerOfRounds = this.score.roundsInfo.rounds.length;
@@ -135,5 +132,25 @@ export class ScoreRoundsEditComponent implements OnInit {
 
   private canAddNewPoint(currentPoints: IPoint[]): boolean {
     return currentPoints.length <  this.score.roundsInfo.rounds[this.editedRoundRowId].arrowsPairEnd;
+  }
+
+  private updateTotalScore() {
+    let totalValue = 0;
+    
+    for (let index = 0; index < this.score.scoresInfo.length; index++) {
+      let element = this.score.scoresInfo[index];
+      
+      if(element){        
+        for (let endsIndex = 0; endsIndex < element.endsPoints.length; endsIndex++) {
+          let end = element.endsPoints[endsIndex];
+          
+          if(end){
+            end.forEach(e => totalValue += e.value);
+          }
+        }
+      }
+    }
+
+    this.score.totalValue = totalValue;
   }
 }
