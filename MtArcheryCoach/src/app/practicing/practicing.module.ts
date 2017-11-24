@@ -5,6 +5,8 @@ import { MdNativeDateModule, MdButtonModule, MdCardModule, MdMenuModule, MdToolb
 import { PracticeDeleteConfirmDialog, PracticesComponent } from './practices/practices.component';
 import { PracticeComponent } from './practice/practice.component';
 import { PracticingRoutingModule } from "./practicing-routing.module";
+import { HttpModule } from '@angular/http';
+import { PracticesRestComponent } from './practicesRest/PracticesRest.component';
 
 @NgModule({
   imports: [
@@ -18,9 +20,10 @@ import { PracticingRoutingModule } from "./practicing-routing.module";
     MdIconModule,
     MdDatepickerModule,
     MaterialModule,
+    HttpModule,
     FormsModule
   ],
-  declarations: [PracticesComponent, PracticeDeleteConfirmDialog, PracticeComponent],
+  declarations: [PracticesComponent, PracticesRestComponent, PracticeDeleteConfirmDialog, PracticeComponent],
   exports: [
     MdNativeDateModule,
     MdButtonModule,

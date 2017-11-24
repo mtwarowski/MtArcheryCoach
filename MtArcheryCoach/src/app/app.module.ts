@@ -19,10 +19,14 @@ import { LoggedInGuard } from "./loggedIn.guard";
 import { EquipmentModule } from "./equipment/equipment.module";
 import { PracticingModule } from "./practicing/practicing.module";
 import { ScoringModule } from "./scoring/scoring.module";
+import { RestDataService } from './core/restData.service';
+import { NotFoundComponent } from './error/notFound.component';
+import { IntencityModule } from './intencity/intencity.module';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'error/notFound', component: NotFoundComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' }
 ];
 
@@ -54,14 +58,14 @@ export const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
 
-
     EquipmentModule,
     PracticingModule,
-    ScoringModule
+    ScoringModule,
+    IntencityModule
   ],
-  declarations: [ AppComponent, HomeComponent, LoginComponent ],
+  declarations: [ AppComponent, HomeComponent, LoginComponent, NotFoundComponent ],
   bootstrap: [ AppComponent ],
-  providers: [ UserService, LoggedInGuard ],
+  providers: [ UserService, LoggedInGuard, RestDataService ],
   exports: [
     MdNativeDateModule,
     MdButtonModule,

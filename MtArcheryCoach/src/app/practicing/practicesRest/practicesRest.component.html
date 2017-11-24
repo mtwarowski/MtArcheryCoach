@@ -1,10 +1,10 @@
 <md-card *ngFor="let practice of practices | async"> 
   <md-card-header>
-    <div md-card-avatar class="md-card-avatar-text-container"><span class="md-card-avatar-span-text">{{practice.totalValue}}</span></div>
+    <div md-card-avatar class="practice-total-value"><span class="practice-total-value-text">{{practice.totalValue}}</span></div>
     <md-card-title>{{practice.name}}</md-card-title>
     <md-card-subtitle>{{practice.practiceDateFormatedText}}</md-card-subtitle>
   </md-card-header>
-  <md-card-actions  class="md-card-actions-align">
+  <md-card-actions  class="practice-md-card-actions">
     <div fxFlex></div>
     <button md-icon-button (click)="onSelectedListItem(practice)"><md-icon md-list-icon>edit</md-icon></button>     
     <button md-icon-button (click)="onDeleteListItem(practice)"><md-icon md-list-icon>delete</md-icon></button>

@@ -1,0 +1,20 @@
+<md-card *ngFor="let traningPlan of traningPlans"> 
+  <md-card-header>
+    <div md-card-avatar class="md-card-avatar-text-container"><span class="md-card-avatar-span-text">{{getNumberOfDays(traningPlan)}}</span></div>
+    <md-card-title>{{traningPlan.name}}</md-card-title>
+    <md-card-subtitle><span>days</span></md-card-subtitle>
+  </md-card-header>
+  <md-card-actions  class="md-card-actions-align">
+    <div fxFlex></div>
+    <button md-icon-button (click)="onSelectedListItem(traningPlan)"><md-icon md-list-icon>edit</md-icon></button>     
+    <button md-icon-button (click)="onUseListItem(traningPlan)"><md-icon md-list-icon>timeline</md-icon></button>     
+    <button md-icon-button (click)="onDeleteListItem(traningPlan)"><md-icon md-list-icon>delete</md-icon></button>
+  </md-card-actions>
+</md-card> 
+
+
+<span class="done">
+  <a routerLink="/intencity/traningPlan" color="primary" md-fab>
+    <md-icon>add circle</md-icon>
+  </a>
+</span>

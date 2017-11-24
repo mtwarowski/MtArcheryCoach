@@ -1,24 +1,24 @@
- <div>
-  <md-toolbar color="primary">
-    <span><md-icon>mood</md-icon></span>
 
-    <span>Your archery coach!</span>
+<md-toolbar color="primary">
+  <span><md-icon>mood</md-icon></span>
 
-    <button md-button [md-menu-trigger-for]="menu">
-      <!-- <md-icon>more_vert</md-icon> -->
-      {{displayName}}
-    </button>
-  </md-toolbar>
-  <md-menu x-position="before" #menu="mdMenu">  
-    <a md-menu-item routerLink="/bows" routerLinkActive="active">Bows</a>
-    <a md-menu-item routerLink="/arrows" routerLinkActive="active">Arrows</a>
-    <a md-menu-item routerLink="/practices" routerLinkActive="active">Practices</a>
-    <a md-menu-item routerLink="/scores" routerLinkActive="active">Scores</a>
-    <button md-menu-item *ngIf="!isUserLoggedIn" (click)="userService.loginWithGoogle()">loginWithGoogle</button>
-    <button md-menu-item *ngIf="isUserLoggedIn" (click)="userService.logout()">Logout</button>    
-  </md-menu>
+  <span>Your archery coach!</span>
 
-  <router-outlet></router-outlet>
-</div>
+  <button md-button [md-menu-trigger-for]="menu">
+    <!-- <md-icon>more_vert</md-icon> -->
+    {{displayName}}
+  </button>
+</md-toolbar>
+<md-menu x-position="before" #menu="mdMenu">  
+  <a md-menu-item routerLink="/bows" routerLinkActive="active">Bows</a>
+  <a md-menu-item routerLink="/arrows" routerLinkActive="active">Arrows</a>
+  <a md-menu-item routerLink="/practices" routerLinkActive="active">Practices</a>
+  <a md-menu-item routerLink="/practicesRest" routerLinkActive="active">PracticesRest</a>
+  <a md-menu-item routerLink="/intencity/traningPlans" routerLinkActive="active">traningPlans</a>
+  <a md-menu-item routerLink="/scores" routerLinkActive="active">Scores</a>
+  <button md-menu-item *ngIf="!isUserLoggedIn" (click)="userService.loginWithGoogle()">loginWithGoogle</button>
+  <button md-menu-item *ngIf="isUserLoggedIn" (click)="userService.logout()">Logout</button>    
+</md-menu>
+<router-outlet></router-outlet>
 
 
